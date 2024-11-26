@@ -9,8 +9,14 @@ import lombok.Getter;
 public class Dice {
 
     private int number;
+    private int id;
 
-    public Dice(int number) {
+    public Dice(int number, int id) {
         this.number = number;
+        this.id = id;
+    }
+
+    public int GetDiceNumber() {
+        return this.number;
     }
 }
