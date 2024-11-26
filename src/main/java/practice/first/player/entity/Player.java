@@ -10,4 +10,8 @@ public class Player {
     public Player(String nickname) {
         this.nickname = nickname;
     }
+
+    public String GetPlayerNickname() {
+        return this.nickname;
+    }
 }

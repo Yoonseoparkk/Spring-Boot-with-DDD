@@ -15,9 +15,9 @@ import practice.first.player.service.PlayerService;
 public class PlayerController {
     final private PlayerService playerService;
 
-    @GetMapping("/createPlayer")
+    @GetMapping("/create-player")
     public Player createPlayer() {
-        log.info("/createPlayer() called");
+        log.info("/create-player() called");
         Player createdPlayer = playerService.createPlayer();
 
         return createdPlayer;
