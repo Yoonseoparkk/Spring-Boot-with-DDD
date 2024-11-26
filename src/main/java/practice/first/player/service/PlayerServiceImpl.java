@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import practice.first.player.entity.Player;
 import practice.first.player.repository.PlayerRepository;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class PlayerServiceImpl implements PlayerService {
@@ -13,5 +15,10 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public Player createPlayer() {
         return playerRepository.create();
+    }
+
+    @Override
+    public List<Player> selectPlayer() {
+        return playerRepository.select();
     }
 }

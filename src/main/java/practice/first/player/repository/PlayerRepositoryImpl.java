@@ -22,4 +22,24 @@ public class PlayerRepositoryImpl implements PlayerRepository {
 
         return player;
     }
+
+    @Override
+    public List<Player> select() {
+        if (playerList.size() < 2) {
+            return List.of();
+        }
+
+        List<Player> gamePlayerList = new ArrayList<>();
+
+        int idx1 = (int) (Math.random() * playerList.size());
+        int idx2 = (int) (Math.random() * playerList.size());
+        while (idx2 == idx1) {
+            idx2 = (int) (Math.random() * playerList.size());
+        }
+
+        gamePlayerList.add(playerList.get(idx1));
+        gamePlayerList.add(playerList.get(idx2));
+
+        return gamePlayerList;
+    }
 }
