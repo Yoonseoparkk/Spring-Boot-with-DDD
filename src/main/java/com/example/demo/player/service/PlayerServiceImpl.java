@@ -5,13 +5,20 @@ import com.example.demo.player.repository.PlayerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class PlayerServiceImpl implements PlayerService {
     final private PlayerRepository playerRepository;
 
     @Override
-    public Player createPlayer() {
-        return playerRepository.create();
+    public Player createPlayer(String nickname) {
+        return playerRepository.create(nickname);
+    }
+
+    @Override
+    public List<Player> playerList() {
+        return playerRepository.list();
     }
 }
