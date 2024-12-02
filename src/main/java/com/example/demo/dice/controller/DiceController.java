@@ -27,10 +27,10 @@ public class DiceController {
 
     // Spring Framework에서는 json 리턴 타입을 맞추려면 class 타입으로 리턴해야합니다
     @GetMapping("/roll-dice")
-    public Dice rollDice() {
+    public int rollDice() {
         log.info("rollDice() called");
 
-        Dice acquiredDice = diceService.rollDice();
+        int acquiredDice = diceService.rollDice();
 
         return acquiredDice;
     }
