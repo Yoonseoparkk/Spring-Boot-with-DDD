@@ -5,30 +5,30 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class GameRepositoryImpl implements GameRepository {
-
-    List<Game> gameList = new ArrayList<>();
-    int gameId = 0;
+    static List<Game> gameList = new ArrayList<>();
 
     @Override
-    public Game create(String winner) {
-        Game game = new Game(++gameId, winner);
-
+    public int create(List<Integer> playerIdList) {
+        Game game = new Game(playerIdList);
         gameList.add(game);
 
-        return game;
+        return game.getId();
     }
 
     @Override
-    public String record(int gameId) {
-        if (gameId < 1) {
-            return "존재하지 않는 game Id 입니다.";
-        }
-        else if (gameList.size() >= gameId) {
-            return ("승자: " + gameList.get(gameId-1).GetGameWinner());
-        }
-        return "존재하지 않는 game Id 입니다.";
+    public Optional<Game> findById(int gameId) {
+        return gameList.stream()
+                .filter(game -> game.getId() == gameId)
+                .findFirst();
+    }
+
+    @Override
+    public void recordGame(int gameId, int winnerId) {
+        Game game = gameList.get(gameId - 1);
+        game.setWinner(winnerId);
     }
 }

@@ -8,23 +8,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@Setter
 public class Player {
-    private int id;
+    private static int idCounter = 0;
+    private final int id;
+
     private String nickname;
-    private List<Dice> diceList;
+    private List<Integer> diceIdList;
 
-    public Player(int id, String nickname, List<Dice> diceList) {
-        this.id = id;
+    public Player(String nickname) {
+        this.id = ++idCounter;
         this.nickname = nickname;
-        this.diceList = diceList;
+        this.diceIdList = new ArrayList<>();
     }
 
-    public String GetPlayerNickname() {
-        return this.nickname;
-    }
-
-    public void AddDiceList(Dice dice) {
-        this.diceList.add(dice);
+    public void addDiceId(int diceId) {
+        this.diceIdList.add(diceId);
     }
 }
