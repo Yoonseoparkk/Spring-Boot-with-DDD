@@ -6,24 +6,32 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class PlayerRepositoryImpl implements PlayerRepository {
-
     static List<Player> playerList = new ArrayList<>();
-    int playerId = 0;
 
     @Override
-    public Player create(String nickname) {
-        Player player = new Player(++playerId, nickname, List.of());
-
+    public int create(Player player) {
         playerList.add(player);
 
-        return player;
+        if (player != null) {
+            return player.getId();
+        }
+
+        return 0;
     }
 
     @Override
-    public List<Player> list() {
-        return playerList;
+    public List<Player> findAll() {
+        return new ArrayList<>(playerList);
+    }
+
+    @Override
+    public List<Player> findByIdIn(List<Integer> playerIdList) {
+        return playerList.stream()
+                .filter(player -> playerIdList.contains(player.getId()))
+                .collect(Collectors.toList());
     }
 }
