@@ -1,6 +1,7 @@
 package com.example.demo.player.controller;
 
 import com.example.demo.player.controller.request_form.PlayerCreateRequestForm;
+import com.example.demo.player.controller.request_form.PlayerFindRequestForm;
 import com.example.demo.player.controller.response_form.PlayerCreateResponseForm;
 import com.example.demo.player.controller.response_form.PlayerListResponseForm;
 import com.example.demo.player.entity.Player;
@@ -30,14 +31,12 @@ public class PlayerController {
         return PlayerCreateResponseForm.from(response);
     }
 
-//    @GetMapping("/list")
-//    public List<PlayerListResponseForm> listPlayer() {
-//        log.info("listPlayer() called!");
-//
-//        List<PlayerListResponse> responseList = playerService.listPlayer();
-//
-//        return responseList.stream()
-//                .map(PlayerListResponseForm::from)
-//                .collect(Collectors.toList());
-//    }
+    @GetMapping("/find-player")
+    public Player findPlayer(@ModelAttribute PlayerFindRequestForm playerFindRequestForm) {
+        log.info("findPlayer() called!");
+
+        Player foundPlayer = playerService.findPlayer(playerFindRequestForm.toPlayerFindRequest());
+        return foundPlayer;
+    }
+
 }
