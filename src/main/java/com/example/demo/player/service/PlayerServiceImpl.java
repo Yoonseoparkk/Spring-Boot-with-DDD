@@ -22,24 +22,20 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public PlayerCreateResponse createPlayer(PlayerCreateRequest playerCreateRequest) {
         Player player = playerCreateRequest.toPlayer();
-        int playerId = playerRepository.create(player);
+        Player createdPlayer = playerRepository.save(player);
 
-        if (playerId > 0) {
-            return PlayerCreateResponse.from(player);
-        }
-
-        return new PlayerCreateResponse("", false);
+        return PlayerCreateResponse.from(createdPlayer);
     }
 
-    @Override
-    public List<PlayerListResponse> listPlayer() {
-        List<Player> playerList = playerRepository.findAll();
-
-        return playerList.stream()
-                .map(player -> {
-                    List<Dice> diceList = diceRepository.findByIdIn(player.getDiceIdList());
-                    return PlayerListResponse.from(player, diceList);   // Player와 Dice 객체들을 사용하여 PlayerListResponse 반환
-                })
-                .collect(Collectors.toList());
-    }
+//    @Override
+//    public List<PlayerListResponse> listPlayer() {
+//        List<Player> playerList = playerRepository.findAll();
+//
+//        return playerList.stream()
+//                .map(player -> {
+//                    List<Dice> diceList = diceRepository.findByIdIn(player.getDiceIdList());
+//                    return PlayerListResponse.from(player, diceList);   // Player와 Dice 객체들을 사용하여 PlayerListResponse 반환
+//                })
+//                .collect(Collectors.toList());
+//    }
 }

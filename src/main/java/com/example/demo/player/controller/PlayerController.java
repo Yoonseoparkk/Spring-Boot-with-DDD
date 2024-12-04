@@ -30,14 +30,14 @@ public class PlayerController {
         return PlayerCreateResponseForm.from(response);
     }
 
-    @GetMapping("/list")
-    public List<PlayerListResponseForm> listPlayer() {
-        log.info("listPlayer() called!");
-
-        List<PlayerListResponse> responseList = playerService.listPlayer();
-
-        return responseList.stream()
-                .map(PlayerListResponseForm::from)
-                .collect(Collectors.toList());
-    }
+//    @GetMapping("/list")
+//    public List<PlayerListResponseForm> listPlayer() {
+//        log.info("listPlayer() called!");
+//
+//        List<PlayerListResponse> responseList = playerService.listPlayer();
+//
+//        return responseList.stream()
+//                .map(PlayerListResponseForm::from)
+//                .collect(Collectors.toList());
+//    }
 }
