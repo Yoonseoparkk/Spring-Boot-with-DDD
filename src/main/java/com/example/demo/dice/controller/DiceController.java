@@ -23,10 +23,10 @@ public class DiceController {
     }
 
     @GetMapping("/roll-dice")
-    public Dice rollDice() {
+    public int rollDice() {
         log.info("rollDice() called");
 
-        Dice acquiredDice = diceService.rollDice();
+        int acquiredDice = diceService.rollDice();
 
         return acquiredDice;
     }
