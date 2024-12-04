@@ -7,6 +7,7 @@ import com.example.demo.player.controller.response_form.PlayerListResponseForm;
 import com.example.demo.player.entity.Player;
 import com.example.demo.player.service.response.PlayerCreateResponse;
 import com.example.demo.player.service.response.PlayerListResponse;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -39,4 +40,11 @@ public class PlayerController {
         return foundPlayer;
     }
 
+    @GetMapping("/list")
+    public List<Player> listPlayer() {
+        log.info("listPlayer() called!");
+
+        List<Player> responseList = playerService.listPlayer();
+        return responseList;
+    }
 }
