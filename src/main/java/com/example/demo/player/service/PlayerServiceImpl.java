@@ -5,41 +5,48 @@ import com.example.demo.dice.repository.DiceRepository;
 import com.example.demo.player.entity.Player;
 import com.example.demo.player.repository.PlayerRepository;
 import com.example.demo.player.service.request.PlayerCreateRequest;
+import com.example.demo.player.service.request.PlayerFindRequest;
 import com.example.demo.player.service.response.PlayerCreateResponse;
 import com.example.demo.player.service.response.PlayerListResponse;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class PlayerServiceImpl implements PlayerService {
+    private static final Logger log = LoggerFactory.getLogger(PlayerServiceImpl.class);
     final private PlayerRepository playerRepository;
     final private DiceRepository diceRepository;
 
     @Override
     public PlayerCreateResponse createPlayer(PlayerCreateRequest playerCreateRequest) {
         Player player = playerCreateRequest.toPlayer();
-        int playerId = playerRepository.create(player);
+        Player createdPlayer = playerRepository.save(player);
 
-        if (playerId > 0) {
-            return PlayerCreateResponse.from(player);
-        }
-
-        return new PlayerCreateResponse("", false);
+        return PlayerCreateResponse.from(createdPlayer);
     }
 
     @Override
-    public List<PlayerListResponse> listPlayer() {
+    public Player findPlayer(PlayerFindRequest playerFindRequest) {
+        Optional<Player> maybePlayer = playerRepository.findById(playerFindRequest.getPlayerId());
+        if (maybePlayer.isEmpty()) {
+            log.info("해당 playerId로 찾는 Player가 없습니다.");
+            return null;
+        }
+
+        return maybePlayer.get();
+    }
+
+    @Override
+    public List<Player> listPlayer() {
         List<Player> playerList = playerRepository.findAll();
 
-        return playerList.stream()
-                .map(player -> {
-                    List<Dice> diceList = diceRepository.findByIdIn(player.getDiceIdList());
-                    return PlayerListResponse.from(player, diceList);   // Player와 Dice 객체들을 사용하여 PlayerListResponse 반환
-                })
-                .collect(Collectors.toList());
+        return playerList;
     }
 }

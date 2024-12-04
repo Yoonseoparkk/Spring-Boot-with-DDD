@@ -8,9 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dice.service.DiceService;
-
-// RestController는 기본적으로 다루는 데이터를 전부 JSON으로 처리
-// Slf4j는 기본적으로 로그를 작성할 때 활용
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -25,7 +22,6 @@ public class DiceController {
         return "diceTest() called";
     }
 
-    // Spring Framework에서는 json 리턴 타입을 맞추려면 class 타입으로 리턴해야합니다
     @GetMapping("/roll-dice")
     public int rollDice() {
         log.info("rollDice() called");

@@ -11,7 +11,11 @@ public class DiceServiceImpl implements DiceService {
     final private DiceRepository diceRepository;
 
     @Override
-    public int rollDice() {
-        return diceRepository.rollDice();
+    public Dice rollDice() {
+        long randomNumber = (long) (Math.random() * 6) + 1;
+        Dice dice = new Dice(randomNumber);
+        Dice createdDice = diceRepository.save(dice);
+
+        return createdDice;
     }
 }
