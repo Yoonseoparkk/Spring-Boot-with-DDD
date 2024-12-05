@@ -8,6 +8,6 @@ import com.example.demo.game.service.response.RecordGameWinnerResponse;
 
 public interface GameService {
     CreateSimpleGameResponse createSimpleGame();
-    RecordGameWinnerResponse recordGameWinner(RecordGameWinnerRequest gameRecordWinnerRequest);
-    CheckGameResponse checkGame(CheckGameRequest checkGameRequest);
+//    RecordGameWinnerResponse recordGameWinner(RecordGameWinnerRequest gameRecordWinnerRequest);
+//    CheckGameResponse checkGame(CheckGameRequest checkGameRequest);
 }
