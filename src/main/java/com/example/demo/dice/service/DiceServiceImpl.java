@@ -5,7 +5,6 @@ import com.example.demo.dice.entity.GamePlayerDice;
 import com.example.demo.dice.repository.DiceRepository;
 import com.example.demo.dice.service.request.RollDiceRequest;
 import com.example.demo.game.entity.Game;
-import com.example.demo.game.repository.GamePlayerDiceRepository;
 import com.example.demo.game.repository.GameRepository;
 import com.example.demo.player.entity.Player;
 import com.example.demo.player.repository.PlayerRepository;

@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 public class RollDiceRequestForm {
     private final long playerId;
     private final long gameId;
+
     public RollDiceRequest toRollDiceRequest() {
         return new RollDiceRequest(this.playerId, this.gameId);
     }
