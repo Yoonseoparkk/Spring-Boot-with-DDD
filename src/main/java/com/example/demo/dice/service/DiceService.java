@@ -1,7 +1,8 @@
 package com.example.demo.dice.service;
 
 import com.example.demo.dice.entity.Dice;
+import com.example.demo.dice.service.request.RollDiceRequest;
 
 public interface DiceService {
-    int rollDice();
+    Dice rollDice(RollDiceRequest rollDiceRequest);
 }
