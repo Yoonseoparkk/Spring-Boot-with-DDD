@@ -1,26 +1,22 @@
 package com.example.demo.player.service;
 
-import com.example.demo.dice.entity.Dice;
 import com.example.demo.dice.repository.DiceRepository;
 import com.example.demo.player.entity.Player;
 import com.example.demo.player.repository.PlayerRepository;
 import com.example.demo.player.service.request.PlayerCreateRequest;
 import com.example.demo.player.service.request.PlayerFindRequest;
 import com.example.demo.player.service.response.PlayerCreateResponse;
-import com.example.demo.player.service.response.PlayerListResponse;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PlayerServiceImpl implements PlayerService {
-    private static final Logger log = LoggerFactory.getLogger(PlayerServiceImpl.class);
     final private PlayerRepository playerRepository;
     final private DiceRepository diceRepository;
 
