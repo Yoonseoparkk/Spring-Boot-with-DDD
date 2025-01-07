@@ -1,6 +1,7 @@
 package com.example.demo.game.controller;
 
 import com.example.demo.game.controller.request_form.CheckGameRequestForm;
+import com.example.demo.game.controller.request_form.CreateGameRequestForm;
 import com.example.demo.game.controller.request_form.RecordGameWinnerRequestForm;
 import com.example.demo.game.controller.response_form.CheckGameResponseForm;
 import com.example.demo.game.controller.response_form.CreateSimpleGameResponseForm;
@@ -29,7 +30,7 @@ public class GameController {
     public CreateSimpleGameResponseForm createSimpleGame(@ModelAttribute CreateGameRequestForm createGameRequestForm) {
         log.info("createSimpleGame() called!");
 
-        CreateSimpleGameResponse response = gameService.createSimpleGame(createGameRequestForm.toCreateGameRequesst());
+        CreateSimpleGameResponse response = gameService.createSimpleGame(createGameRequestForm.toCreateGameRequest());
 
         return CreateSimpleGameResponseForm.from(response);
     }

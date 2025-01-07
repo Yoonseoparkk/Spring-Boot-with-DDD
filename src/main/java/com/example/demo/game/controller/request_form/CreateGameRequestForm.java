@@ -1,5 +1,6 @@
 package com.example.demo.game.controller.request_form;
 
+import com.example.demo.game.service.request.CreateGameRequest;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -8,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 public class CreateGameRequestForm {
     private final int playerCount;
 
-    public CreateGameRequestForm toCreateGameRequest() {
+    public CreateGameRequest toCreateGameRequest() {
         return new CreateGameRequest(this.playerCount);
     }
 }
