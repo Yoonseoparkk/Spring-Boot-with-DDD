@@ -3,6 +3,7 @@ package com.example.demo.dice.service;
 import com.example.demo.dice.entity.Dice;
 import com.example.demo.dice.entity.GamePlayerDice;
 import com.example.demo.dice.repository.DiceRepository;
+import com.example.demo.dice.repository.GamePlayerDiceRepository;
 import com.example.demo.dice.service.request.RollDiceRequest;
 import com.example.demo.game.entity.Game;
 import com.example.demo.game.repository.GameRepository;
