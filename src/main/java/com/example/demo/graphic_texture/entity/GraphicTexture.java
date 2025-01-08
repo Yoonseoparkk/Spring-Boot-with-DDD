@@ -13,12 +13,16 @@ public class GraphicTexture {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    private int cardNumber;
+    private String graphicTextureName;
     private int positionX;
     private int positionY;
 
     public GraphicTexture() {}
 
-    public GraphicTexture(int positionX, int positionY) {
+    public GraphicTexture(int cardNumber, String graphicTextureName, int positionX, int positionY) {
+        this.cardNumber = cardNumber;
+        this.graphicTextureName = graphicTextureName;
         this.positionX = positionX;
         this.positionY = positionY;
     }
