@@ -4,7 +4,6 @@ import com.example.demo.account.entity.Account;
 import com.example.demo.account.service.AccountService;
 import com.example.demo.account_profile.service.AccountProfileService;
 import com.example.demo.kakao_authentication.controller.request_form.AccessTokenRequestForm;
-import com.example.demo.kakao_authentication.repository.KakaoAuthenticationRepository;
 import com.example.demo.kakao_authentication.service.KakaoAuthenticationService;
 import com.example.demo.redis_cache.service.RedisCacheService;
 import jakarta.transaction.Transactional;

@@ -79,8 +79,6 @@ public class KakaoAuthenticationRepositoryImpl implements KakaoAuthenticationRep
         ResponseEntity<Map> response = restTemplate.exchange(
                 userInfoRequestUri, HttpMethod.GET, entity, Map.class);
 
-        log.info("User info: {}", response.getBody());
-
         return response.getBody();
     }
 }
