@@ -1,9 +1,12 @@
 package com.example.demo.board.service;
 
+import com.example.demo.account.entity.Account;
 import com.example.demo.account.repository.AccountRepository;
+import com.example.demo.account_profile.entity.AccountProfile;
 import com.example.demo.account_profile.repository.AccountProfileRepository;
 import com.example.demo.board.entity.Board;
 import com.example.demo.board.repository.BoardRepository;
+import com.example.demo.board.service.request.CreateBoardRequest;
 import com.example.demo.board.service.request.ListBoardRequest;
 import com.example.demo.board.service.response.ListBoardResponse;
 import lombok.RequiredArgsConstructor;
@@ -30,5 +33,18 @@ public class BoardServiceImpl implements BoardService {
 
         // ListBoardResponse 객체로 변환하여 반환
         return new ListBoardResponse(boardPage.getContent(), boardPage.getTotalElements(), boardPage.getTotalPages());
+    }
+
+    @Override
+    public Board register(CreateBoardRequest createBoardRequest) {
+        log.info("accountId: {}", createBoardRequest.getAccountId());
+
+        Account account = accountRepository.findById(createBoardRequest.getAccountId())
+                .orElseThrow(() -> new RuntimeException("Account 존재하지 않음"));
+
+        AccountProfile accountProfile = accountProfileRepository.findByAccount(account)
+                .orElseThrow(() -> new RuntimeException("AccountProfile not found"));
+
+        return boardRepository.save(createBoardRequest.toBoard(accountProfile));
     }
 }

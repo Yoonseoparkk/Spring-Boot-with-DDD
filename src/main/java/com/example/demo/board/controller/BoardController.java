@@ -1,16 +1,15 @@
 package com.example.demo.board.controller;
 
+import com.example.demo.board.controller.request_form.CreateBoardRequestForm;
 import com.example.demo.board.controller.request_form.ListBoardRequestForm;
 import com.example.demo.board.controller.response_form.ListBoardResponseForm;
+import com.example.demo.board.entity.Board;
 import com.example.demo.board.service.BoardService;
 import com.example.demo.board.service.response.ListBoardResponse;
 import com.example.demo.redis_cache.service.RedisCacheService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,5 +32,15 @@ public class BoardController {
                 (int) response.getTotalItems(),
                 response.getTotalPages()
         );
+    }
+
+    @PostMapping("/create")
+    public Board registerBoard (@RequestBody CreateBoardRequestForm createBoardRequestForm) {
+        log.info("registerBoard() -> {}", createBoardRequestForm);
+
+        Long accountId = redisCacheService.getValueByKey(createBoardRequestForm.getUserToken());
+        log.info("accountId -> {}", accountId);
+
+        return boardService.register(createBoardRequestForm.toCreateBoardRequest(accountId));
     }
 }
