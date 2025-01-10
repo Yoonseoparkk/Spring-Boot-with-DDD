@@ -63,4 +63,19 @@ public class BoardServiceImpl implements BoardService {
         Board board = maybeBoard.get();
         return ReadBoardResponse.from(board);
     }
+
+    @Override
+    public boolean delete(Long boardId) {
+        // 게시글 존재 여부 확인
+        Optional<Board> maybeBoard = boardRepository.findById(boardId);
+        if (maybeBoard.isEmpty()) {
+            return false;   // 존재하지 않을 경우 false 반환
+        }
+
+        // 삭제 수행
+        boardRepository.deleteById(boardId);
+
+        // 삭제 후 검증
+        return !boardRepository.existsById(boardId);
+    }
 }

@@ -10,4 +10,5 @@ public interface BoardService {
     ListBoardResponse list(ListBoardRequest request);
     Board register(CreateBoardRequest createBoardRequest);
     ReadBoardResponse read(Long boardId);
+    public boolean delete(Long boardId);
 }

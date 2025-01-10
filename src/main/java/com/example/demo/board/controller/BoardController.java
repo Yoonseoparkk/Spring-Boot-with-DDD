@@ -47,8 +47,21 @@ public class BoardController {
 
     @GetMapping("/{boardId}")
     public ReadBoardResponse readBoard (@PathVariable("boardId") Long boardId) {
-        log.info("boardRead()");
+        log.info("readBoard()");
 
         return boardService.read(boardId);
+    }
+
+    @DeleteMapping("/{boardId}")
+    public boolean deleteBoard (@PathVariable("boardId") Long boardId) {
+        log.info("deleteBoard() - boardId: {}", boardId);
+
+        boolean isDeleted = boardService.delete(boardId);
+
+        if (!isDeleted) {
+            throw new RuntimeException("게시글이 존재하지 않거나 이미 삭제되었습니다.");
+        }
+
+        return true;
     }
 }
