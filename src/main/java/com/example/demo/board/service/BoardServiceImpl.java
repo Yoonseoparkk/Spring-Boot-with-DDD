@@ -9,11 +9,14 @@ import com.example.demo.board.repository.BoardRepository;
 import com.example.demo.board.service.request.CreateBoardRequest;
 import com.example.demo.board.service.request.ListBoardRequest;
 import com.example.demo.board.service.response.ListBoardResponse;
+import com.example.demo.board.service.response.ReadBoardResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -46,5 +49,18 @@ public class BoardServiceImpl implements BoardService {
                 .orElseThrow(() -> new RuntimeException("AccountProfile not found"));
 
         return boardRepository.save(createBoardRequest.toBoard(accountProfile));
+    }
+
+    @Override
+    public ReadBoardResponse read(Long boardId) {
+        Optional<Board> maybeBoard = boardRepository.findByIdWithWriter(boardId);
+
+        if (maybeBoard.isEmpty()) {
+            log.info("게시물 정보가 없습니다.");
+            return null;
+        }
+
+        Board board = maybeBoard.get();
+        return ReadBoardResponse.from(board);
     }
 }

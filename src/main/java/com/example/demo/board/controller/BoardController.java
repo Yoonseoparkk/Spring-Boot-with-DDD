@@ -6,6 +6,7 @@ import com.example.demo.board.controller.response_form.ListBoardResponseForm;
 import com.example.demo.board.entity.Board;
 import com.example.demo.board.service.BoardService;
 import com.example.demo.board.service.response.ListBoardResponse;
+import com.example.demo.board.service.response.ReadBoardResponse;
 import com.example.demo.redis_cache.service.RedisCacheService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,5 +43,12 @@ public class BoardController {
         log.info("accountId -> {}", accountId);
 
         return boardService.register(createBoardRequestForm.toCreateBoardRequest(accountId));
+    }
+
+    @GetMapping("/{boardId}")
+    public ReadBoardResponse readBoard (@PathVariable("boardId") Long boardId) {
+        log.info("boardRead()");
+
+        return boardService.read(boardId);
     }
 }
