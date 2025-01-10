@@ -1,16 +1,24 @@
 package com.example.demo.board.service;
 
+import com.example.demo.account.entity.Account;
 import com.example.demo.account.repository.AccountRepository;
+import com.example.demo.account_profile.entity.AccountProfile;
 import com.example.demo.account_profile.repository.AccountProfileRepository;
 import com.example.demo.board.entity.Board;
 import com.example.demo.board.repository.BoardRepository;
+import com.example.demo.board.service.request.CreateBoardRequest;
 import com.example.demo.board.service.request.ListBoardRequest;
+import com.example.demo.board.service.request.ModifyBoardRequest;
 import com.example.demo.board.service.response.ListBoardResponse;
+import com.example.demo.board.service.response.ModifyBoardResponse;
+import com.example.demo.board.service.response.ReadBoardResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -30,5 +38,75 @@ public class BoardServiceImpl implements BoardService {
 
         // ListBoardResponse 객체로 변환하여 반환
         return new ListBoardResponse(boardPage.getContent(), boardPage.getTotalElements(), boardPage.getTotalPages());
+    }
+
+    @Override
+    public Board register(CreateBoardRequest createBoardRequest) {
+        log.info("accountId: {}", createBoardRequest.getAccountId());
+
+        Account account = accountRepository.findById(createBoardRequest.getAccountId())
+                .orElseThrow(() -> new RuntimeException("Account 존재하지 않음"));
+
+        AccountProfile accountProfile = accountProfileRepository.findByAccount(account)
+                .orElseThrow(() -> new RuntimeException("AccountProfile not found"));
+
+        return boardRepository.save(createBoardRequest.toBoard(accountProfile));
+    }
+
+    @Override
+    public ReadBoardResponse read(Long boardId) {
+        Optional<Board> maybeBoard = boardRepository.findByIdWithWriter(boardId);
+
+        if (maybeBoard.isEmpty()) {
+            log.info("게시물 정보가 없습니다.");
+            return null;
+        }
+
+        Board board = maybeBoard.get();
+        return ReadBoardResponse.from(board);
+    }
+
+    @Override
+    public boolean delete(Long boardId) {
+        // 게시글 존재 여부 확인
+        Optional<Board> maybeBoard = boardRepository.findById(boardId);
+        if (maybeBoard.isEmpty()) {
+            return false;   // 존재하지 않을 경우 false 반환
+        }
+
+        // 삭제 수행
+        boardRepository.deleteById(boardId);
+
+        // 삭제 후 검증
+        return !boardRepository.existsById(boardId);
+    }
+
+    @Override
+    public ModifyBoardResponse modify(Long boardId, Long accountId, ModifyBoardRequest modifyBoardRequest) {
+        Board board = boardRepository.findByIdWithWriter(boardId)
+                .orElseThrow(() -> new RuntimeException("게시물이 존재하지 않습니다."));
+
+        // 작성자 검증
+        log.info("board.getWriter(): {}", board.getWriter());
+        log.info("board.getWriter().getAccount(): {}", board.getWriter().getAccount());
+        log.info("board.getWriter().getAccount().getId(): {}", board.getWriter().getAccount().getId());
+        log.info("accountId: {}", accountId);
+
+        if (board.getWriter().getAccount().getId() != accountId) {
+            throw new RuntimeException("게시물 수정 권한이 없습니다.");
+        }
+
+        // 수정 작업 수행
+        if (modifyBoardRequest.getTitle() != null) {
+            board.setTitle(modifyBoardRequest.getTitle());
+        }
+
+        if (modifyBoardRequest.getContent() != null) {
+            board.setContent(modifyBoardRequest.getContent());
+        }
+
+        boardRepository.save(board);
+
+        return ModifyBoardResponse.from(board);
     }
 }
