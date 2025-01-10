@@ -2,10 +2,12 @@ package com.example.demo.board.controller;
 
 import com.example.demo.board.controller.request_form.CreateBoardRequestForm;
 import com.example.demo.board.controller.request_form.ListBoardRequestForm;
+import com.example.demo.board.controller.request_form.ModifyBoardRequestForm;
 import com.example.demo.board.controller.response_form.ListBoardResponseForm;
 import com.example.demo.board.entity.Board;
 import com.example.demo.board.service.BoardService;
 import com.example.demo.board.service.response.ListBoardResponse;
+import com.example.demo.board.service.response.ModifyBoardResponse;
 import com.example.demo.board.service.response.ReadBoardResponse;
 import com.example.demo.redis_cache.service.RedisCacheService;
 import lombok.RequiredArgsConstructor;
@@ -63,5 +65,15 @@ public class BoardController {
         }
 
         return true;
+    }
+
+    @PutMapping("/{boardId}")
+    public ModifyBoardResponse modifyBoard (@PathVariable("boardId") Long boardId,
+                                            @RequestBody ModifyBoardRequestForm modifyBoardRequestForm) {
+        log.info("modifyBoard(): " + modifyBoardRequestForm + ", id: " + boardId);
+
+        Long accountId = redisCacheService.getValueByKey(modifyBoardRequestForm.getUserToken());
+
+        return boardService.modify(boardId, accountId, modifyBoardRequestForm.toModifyBoardRequest());
     }
 }

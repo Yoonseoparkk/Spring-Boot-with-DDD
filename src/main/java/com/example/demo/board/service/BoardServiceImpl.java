@@ -8,7 +8,9 @@ import com.example.demo.board.entity.Board;
 import com.example.demo.board.repository.BoardRepository;
 import com.example.demo.board.service.request.CreateBoardRequest;
 import com.example.demo.board.service.request.ListBoardRequest;
+import com.example.demo.board.service.request.ModifyBoardRequest;
 import com.example.demo.board.service.response.ListBoardResponse;
+import com.example.demo.board.service.response.ModifyBoardResponse;
 import com.example.demo.board.service.response.ReadBoardResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -77,5 +79,34 @@ public class BoardServiceImpl implements BoardService {
 
         // 삭제 후 검증
         return !boardRepository.existsById(boardId);
+    }
+
+    @Override
+    public ModifyBoardResponse modify(Long boardId, Long accountId, ModifyBoardRequest modifyBoardRequest) {
+        Board board = boardRepository.findByIdWithWriter(boardId)
+                .orElseThrow(() -> new RuntimeException("게시물이 존재하지 않습니다."));
+
+        // 작성자 검증
+        log.info("board.getWriter(): {}", board.getWriter());
+        log.info("board.getWriter().getAccount(): {}", board.getWriter().getAccount());
+        log.info("board.getWriter().getAccount().getId(): {}", board.getWriter().getAccount().getId());
+        log.info("accountId: {}", accountId);
+
+        if (board.getWriter().getAccount().getId() != accountId) {
+            throw new RuntimeException("게시물 수정 권한이 없습니다.");
+        }
+
+        // 수정 작업 수행
+        if (modifyBoardRequest.getTitle() != null) {
+            board.setTitle(modifyBoardRequest.getTitle());
+        }
+
+        if (modifyBoardRequest.getContent() != null) {
+            board.setContent(modifyBoardRequest.getContent());
+        }
+
+        boardRepository.save(board);
+
+        return ModifyBoardResponse.from(board);
     }
 }
